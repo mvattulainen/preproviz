@@ -1,0 +1,39 @@
+Package: preproviz
+Title: Visualization of data quality interdependencies for faster and more
+    effective preprocessing
+Version: 0.6.0.0000
+Authors@R: person("Markus", "Vattulainen", email = "markus.vattulainen@gmail.com", role = c("aut", "cre"))
+Description: An S4 object framework for visualization of data quality
+    interdependencies.
+Depends:
+    R (>= 3.2.2)
+License: GPL-2
+LazyData: true
+Imports:
+    caret,
+    DMwR,
+    randomForest,
+    ClustOfVar,
+    reshape2,
+    ggplot2,
+    ggdendro,
+    GGally,
+    gridExtra,
+    methods,
+    utils
+Suggests:
+    testthat,
+    knitr
+VignetteBuilder: knitr
+Collate:
+    '00Utils.R'
+    '01BaseClass.R'
+    '02DefaultFeatures.R'
+    '03AnalysisClass.R'
+    '04ControlClass.R'
+    '05ReportingClass.R'
+    '06RunClass.R'
+    'DefaultControl.R'
+    'NOTTOPACKAGE.R'
+URL: https://github.com/mvattulainen/preproviz
+BugReports: https://github.com/mvattulainen/preproviz/issues

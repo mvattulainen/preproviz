@@ -1,0 +1,21 @@
+---
+title: "preproviz package: Data quality visualization with contructed features"
+author: "Markus Vvattulainen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{preproviz package: Data quality visualization with contructed features}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Interdependent data quality problems are a major cause of suboptimal performance in knowledge discovery tasks. Package preproviz provides
+visualization of data quality interdependencies by constructing 
+features that express data quality such as number of missing values 
+on a row divided by the total of rows. 
+
+## Get started
+
+You can make an example run with"a <- rundq_simple(iris)". This returns
+a ReportClass object that can be explored by: plotDENSITY(a), plotCMDS(a) plotHEATMAP(a), plotVARCLUST(a) and plotOUTLIERS(a).
+
