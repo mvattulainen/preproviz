@@ -1,6 +1,5 @@
 Package: preproviz
-Title: Visualization of data quality interdependencies for faster and more
-    effective preprocessing
+Title: Visualization of Data Quality Interdependencies for Faster and more Effective Preprocessing
 Version: 0.6.0.0000
 Authors@R: person("Markus", "Vattulainen", email = "markus.vattulainen@gmail.com", role = c("aut", "cre"))
 Description: An S4 object framework for visualization of data quality
