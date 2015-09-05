@@ -5,8 +5,7 @@ library(ggplot2)
   packageStartupMessage("Quick start: a<- preproviz(iris), plotBAR(a)")
 }
 
-#' @import 
-#' ggplot2
+#' @import ggplot2
 NULL
 
 #' @importFrom methods setClass setGeneric setMethod

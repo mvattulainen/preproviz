@@ -34,6 +34,5 @@ Collate:
     '05ReportingClass.R'
     '06RunClass.R'
     'DefaultControl.R'
-    'NOTTOPACKAGE.R'
 URL: https://github.com/mvattulainen/preproviz
 BugReports: https://github.com/mvattulainen/preproviz/issues
