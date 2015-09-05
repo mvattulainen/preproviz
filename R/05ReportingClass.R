@@ -6,7 +6,8 @@
 #' @slot densityplot
 #' @slot smat
 #' @slot heatmap
-#' @slot multidimensionalscaling 
+#' @slot multidimensionalscaling
+#' @export 
 
 setClass("ReportClass", representation(barplot="list", smat="list", heatmap="list", multidimensionalscaling="list",  variableclusters="list", outliers="list", varimp="list", lofsum="list"))
 
@@ -45,7 +46,7 @@ g_scatter <- g_scatter + theme_bw() + ggtitle(name)
 
 ## Hieararchical clustering ## MINOR ISSUE: NOTE ANALYSIS DONE HERE AND NOT IN ANALYSIS CLASS
 
-g_dendro <- ggdendro::ggdendrogram(ClustOfVar::hclustvar(getminmaxconstructeddata(object)), rotate = FALSE, size = 2) 
+g_dendro <- suppressWarnings(ggdendro::ggdendrogram(ClustOfVar::hclustvar(getminmaxconstructeddata(object)), rotate = FALSE, size = 2))
 g_dendro <- g_dendro + coord_flip() + ggtitle("Dendrogram")
 
 ## LOF Scores

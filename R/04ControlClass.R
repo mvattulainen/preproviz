@@ -14,6 +14,7 @@
 #' @slot reports A list of ReportClass objects
 #' @slot analysis A list of AnalysisClass object
 #' @return A RunClass object
+#' @export
 
 setClass("RunClass", representation(reports="list", analysis="list")) #
 
@@ -95,6 +96,7 @@ initializecontrolclassobject <- function(setups){
 #' from a DataClass object  
 #'
 #' @slot parameters A list of sub class objects
+#' @export
 
 setClass("ParameterClass", representation(parameters="list"))
 
@@ -177,6 +179,7 @@ initializedataobject <- function(data){
 #' @slot data (DataClass) 
 #' @slot parameters (ParameterClass) 
 #' @slot objectname (character)
+#' @export
 
 setClass("SetUpClass", representation(objectname="character", data="DataClass", parameters="ParameterClass"))
 

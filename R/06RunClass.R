@@ -1,5 +1,6 @@
 #' @include 04ControlClass.R 
 #' @include 01BaseClass.R
+#' @include 05ReportingClass.R
 NULL
 
 #' preproviz

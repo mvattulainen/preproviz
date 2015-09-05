@@ -55,7 +55,8 @@ constructfeature <- function(classname, operation, mode="all", impute=FALSE){
   if (mode=="numeric" & impute=="FALSE") {functionexpression <- gsub("data", "dataobject@imputednumeric", operation)}
 
   setMethod("computeValue", signature(object = classname), function(object, dataobject) {
-    print(paste("Computing feature vector:", object@objectname, " from data: ", dataobject@name, sep=""))
+    #print(paste("Computing feature vector:", object@objectname, " from data: ", dataobject@name, sep=""))
+    temp <- object ## BUG: This is completely redundant
     eval(parse(text=functionexpression))
   })
 

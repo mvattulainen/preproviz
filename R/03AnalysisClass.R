@@ -41,7 +41,7 @@ setClass("AnalysisClass", representation(objectname="character", basedata="data.
 initializeanalysisclassobject <- function(object, dataobject){
 
 objectname <- dataobject@name
-print(paste("AnalysisClass object in initialization for data:", objectname))
+print(paste("Data in process:", objectname))
 
 # Subsetting valid features based on function checksubclassobjectvalidity
 
@@ -92,7 +92,7 @@ cmdsfit <- data.frame(cmdscale(distancematrix,eig=TRUE, k=2)$points) # k is the 
 
 ## Compute variable cluster
 
-varclust <- ClustOfVar::hclustvar(minmaxconstructeddata)
+varclust <- suppressWarnings(ClustOfVar::hclustvar(minmaxconstructeddata))
 
 ## Compute variable importance
 
