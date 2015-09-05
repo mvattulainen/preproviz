@@ -10,12 +10,20 @@ A ReportClass is an class containing ggplot2 objects created based on an Analysi
 \section{Slots}{
 
 \describe{
-\item{\code{densityplot}}{}
+\item{\code{barplot}}{}
 
 \item{\code{smat}}{}
 
 \item{\code{heatmap}}{}
 
 \item{\code{multidimensionalscaling}}{}
+
+\item{\code{variableclusters}}{}
+
+\item{\code{outliers}}{}
+
+\item{\code{varimp}}{}
+
+\item{\code{lofsum}}{}
 }}
 

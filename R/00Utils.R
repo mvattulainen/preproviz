@@ -5,6 +5,9 @@ library(ggplot2)
   packageStartupMessage("Quick start: a<- preproviz(iris), plotBAR(a)")
 }
 
+options(repos = c(CRAN="http://cran.r-project.org"))
+
+
 #' @import ggplot2
 NULL
 

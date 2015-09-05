@@ -3,10 +3,14 @@
 
 #' A ReportClass is an class containing ggplot2 objects created based on an AnalysisClass object.  
 #'
-#' @slot densityplot
+#' @slot barplot
 #' @slot smat
 #' @slot heatmap
 #' @slot multidimensionalscaling
+#' @slot variableclusters
+#' @slot outliers
+#' @slot varimp
+#' @slot lofsum
 #' @export 
 
 setClass("ReportClass", representation(barplot="list", smat="list", heatmap="list", multidimensionalscaling="list",  variableclusters="list", outliers="list", varimp="list", lofsum="list"))

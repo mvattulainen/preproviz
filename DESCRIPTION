@@ -1,10 +1,17 @@
 Package: preproviz
-Title: Visualization of Data Quality Interdependencies for Faster and more
-    Effective Preprocessing
-Version: 0.6.0.0000
+Title: : Tools for Visualization of Interdependent Data Quality Issues for
+    Faster and More Effective Preprocessing
+Version: 0.7.0
 Authors@R: person("Markus", "Vattulainen", email = "markus.vattulainen@gmail.com", role = c("aut", "cre"))
-Description: An S4 object framework for visualization of data quality
-    interdependencies.
+Description: Data Quality issues such as missing values and outliers are often
+    interdependent, which makes preprocessing both time-consuming and often leads
+    to suboptimal performance in knowledge discovery tasks. Package 'preproviz'
+    supports preprocessing decision making by visualizing interdependent data
+    quality issues through means of feature construction. The user can define
+    his own application domain specific constructed features or use nine default
+    features such number of missing values of all variables, outlier score or
+    classification certainty. The outcome can be explored with plotting methods or
+    the feature constructed data acquired by get methods.
 Depends:
     R (>= 3.2.2)
 License: GPL-2
