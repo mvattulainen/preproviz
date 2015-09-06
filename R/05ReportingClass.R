@@ -4,7 +4,6 @@
 #' A ReportClass is an class containing ggplot2 objects created based on an AnalysisClass object.  
 #'
 #' @slot barplot
-#' @slot smat
 #' @slot heatmap
 #' @slot multidimensionalscaling
 #' @slot variableclusters
@@ -13,7 +12,7 @@
 #' @slot lofsum
 #' @export 
 
-setClass("ReportClass", representation(barplot="list", smat="list", heatmap="list", multidimensionalscaling="list",  variableclusters="list", outliers="list", varimp="list", lofsum="list"))
+setClass("ReportClass", representation(barplot="list", heatmap="list", multidimensionalscaling="list",  variableclusters="list", outliers="list", varimp="list", lofsum="list"))
 
 ### CHARACTERIZATION PLOTS
 
@@ -35,11 +34,11 @@ g_bar <- ggplot2::ggplot(getlongformatconstructeddata(object), aes (value), envi
 g_bar <- g_bar + geom_bar() + facet_wrap(~Var2, scales="free") + theme_bw() + ggtitle(name)
 
 # TEST THIS: theme_set(theme_bw())
-g_scattermatrix <- GGally::ggpairs(getminmaxconstructeddata(object), diag = list(continuous = "density"), lower=list(continuous = "smooth"), upper="blank")
+# g_scattermatrix <- GGally::ggpairs(getminmaxconstructeddata(object), diag = list(continuous = "density"), lower=list(continuous = "smooth"), upper="blank")
 
 ## Heat map
 g_heatmap <- ggplot2::ggplot(getlongformatminmaxconstructeddata(object), aes(y=Var1,x=Var2), environment=genv) 
-g_heatmap <- g_heatmap + geom_tile(aes(fill=value)) + scale_fill_gradient(low="white", high="black") + theme_bw() + ggtitle(name)
+g_heatmap <- g_heatmap + geom_tile(aes(fill=value)) + scale_fill_gradient(low="white", high="black") + theme_bw() + ggtitle(name) + coord_flip()
 
 ### CLUSTERING PLOTS
 
@@ -50,8 +49,8 @@ g_scatter <- g_scatter + theme_bw() + ggtitle(name)
 
 ## Hieararchical clustering ## MINOR ISSUE: NOTE ANALYSIS DONE HERE AND NOT IN ANALYSIS CLASS
 
-g_dendro <- suppressWarnings(ggdendro::ggdendrogram(ClustOfVar::hclustvar(getminmaxconstructeddata(object)), rotate = FALSE, size = 2))
-g_dendro <- g_dendro + coord_flip() + ggtitle("Dendrogram")
+g_dendro <- suppressWarnings(ggdendro::ggdendrogram(ClustOfVar::hclustvar(getminmaxconstructeddata(object)), rotate = FALSE, size = 2) + labs(title=genv$name))
+g_dendro <- g_dendro + coord_flip() 
 
 ## LOF Scores
 
@@ -70,7 +69,7 @@ g_varimp <- g_varimp + geom_bar(stat="identity") + coord_flip() + theme_bw() + g
 g_lofsum <- ggplot2::ggplot(getlofsumdata(object), aes(x=seq, y=variable), environment=genv) + geom_tile(aes(fill=value)) 
 g_lofsum <- g_lofsum + scale_fill_gradient(low="white", high="black") + theme_bw() + ggtitle(name) + ylab("") + theme(axis.title.y = element_blank())
 
-ReportClass <- new("ReportClass", barplot=list(g_bar), smat=list(g_scattermatrix), heatmap=list(g_heatmap), multidimensionalscaling=list(g_scatter), variableclusters=list(g_dendro), outliers=list(g_outlier), varimp=list(g_varimp), lofsum=list(g_lofsum))
+ReportClass <- new("ReportClass", barplot=list(g_bar), heatmap=list(g_heatmap), multidimensionalscaling=list(g_scatter), variableclusters=list(g_dendro), outliers=list(g_outlier), varimp=list(g_varimp), lofsum=list(g_lofsum))
 return(ReportClass)
 }
 
@@ -166,35 +165,7 @@ setMethod("plotOUTLIERS", signature(object = "RunClass"), function(object) {
 
 ##
 
-#' plotSCATTERMATRIX 
-#'
-#' plotSCATTERMATRIX is a generic function for plotting scatter matrix of constructed features.
-#' @param object (ReportClass or RunClass)
-#' @rdname plotSCATTERMATRIX
-#' @export
 
-setGeneric("plotSCATTERMATRIX", function(object) {
-  standardGeneric("plotSCATTERMATRIX")
-})
-
-#' plotSCATTERMATRIX ReportClass 
-#' @describeIn plotSCATTERMATRIX
-
-setMethod("plotSCATTERMATRIX", signature(object = "ReportClass"), function(object) {
-  object@smat}
-)
-
-#' plotSCATTERMATRIX RunClass 
-#' @describeIn plotSCATTERMATRIX
-
-setMethod("plotSCATTERMATRIX", signature(object = "RunClass"), function(object) {
-  listcmds <- lapply(object@reports, function(x) slot(x, "smat"))
-  listcmds <- lapply(listcmds, `[[`, 1)
-  do.call(gridExtra::grid.arrange,  listcmds)
-}
-)
-
-##
 
 #' plotVARCLUST 
 #'

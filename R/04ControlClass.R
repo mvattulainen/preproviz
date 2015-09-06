@@ -82,9 +82,13 @@ setClass("ControlClass", representation(setups="list"))
 #' @export
 
 initializecontrolclassobject <- function(setups){
-  a <- new("ControlClass")
-  a@setups <- setups
-  return(a)
+  if (class(setups)!="list") {stop("Argument to initializecontrolclassobject must be a list.")}
+  if (length(setups)==0) {stop("Argument to initializecontrolclassobject must have one or more list elements.")}
+  #if (!all(unlist(lapply(setups, function(x) class(eval(as.name(x)))=="SetUpClass")))) {stop("Argument to initializecontrolclassobject must point to SetUpClass object(s).")}
+  
+  controlclassobject <- new("ControlClass")
+  controlclassobject@setups <- setups
+  return(controlclassobject)
 }
 
 # PARAMETERCLASS =====================
@@ -108,9 +112,13 @@ setClass("ParameterClass", representation(parameters="list"))
 #' @export
 
 initializeparameterclassobject <- function(parameters){
-  a <- new("ParameterClass")
-  a@parameters <- parameters
-  return(a)
+  if (class(parameters)!="list") {stop("Argument to initializeparameterclassobject must be a list.")}
+  if (length(parameters)<3) {stop("Argument to initializeparameterclassobject must have three or more list elements.")}
+  if (!all(unlist(lapply(parameters, function(x) extends(x, "BaseClass"))))) {stop("Argument to initializecontrolclassobject must point to the names of defined sub classes inhereted from BaseClass.")}
+  
+  parameterclassobject <- new("ParameterClass")
+  parameterclassobject@parameters <- parameters
+  return(parameterclassobject)
 }
 
 
@@ -157,8 +165,11 @@ setClass("DataClass", representation(name="character", basedata="data.frame", im
 initializedataobject <- function(data){
 
   if(class(data)!="data.frame"){stop("Argument 'data' is not of class data frame.")}
-  if(sum(sapply(data, is.factor)==TRUE)!=1) {stop("Argument 'data' must have one and only one factor column")}
-  if(sum(sapply(data, is.numeric)==TRUE)!=ncol(data)-1) {stop("Argument 'data' must have only numeric columns and one factor column")}
+  if(sum(sapply(data, is.factor)==TRUE)!=1) {stop("Argument to initializedataobject must have one and only one factor column.")}
+  if(sum(sapply(data, is.numeric)==TRUE)!=ncol(data)-1) {stop("Argument initializedataobject must have only numeric columns and one factor column.")}
+  
+  classlabels <- data[sapply(data, is.factor)][,1]
+  if (any(is.na(classlabels))==TRUE) {stop("Factor column in data can not have missing values.")}
   
   dataobject <- new("DataClass", basedata=data)
   dataobject@name <- as.character(substitute(data))
@@ -192,11 +203,15 @@ setClass("SetUpClass", representation(objectname="character", data="DataClass", 
 #' @export
 
 initializesetupclassobject <- function(objectname, parameterobject, dataobject){
-  a <- new("SetUpClass")
-  a@objectname <- objectname
-  a@parameters <- parameterobject
-  a@data <- dataobject
-  return (a)
+  if (class(objectname)!="character") {stop("Argument objectname to initializesetupclassobject must be of class character.")}
+  if (class(parameterobject)!="ParameterClass") {stop("Argument parameterobject to initializesetupclassobject must be of class ParameterClass.")}
+  if (class(dataobject)!="DataClass") {stop("Argument dataobject to initializesetupclassobject must be of class DataClass.")}
+  
+  setupclassobject <- new("SetUpClass")
+  setupclassobject@objectname <- objectname
+  setupclassobject@parameters <- parameterobject
+  setupclassobject@data <- dataobject
+  return (setupclassobject)
 }
 
 

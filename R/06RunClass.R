@@ -21,18 +21,18 @@ preproviz <- function(controlobject){
     rte <- new.env(parent = emptyenv())
     
     dataobject <- initializedataobject(controlobject)
-    assign("dataobject_qxd", dataobject, envir=rte)
+    assign("dataobject", dataobject, envir=rte)
     
-    setupobject <- initializesetupclassobject("setupobject_qxd", defaultParameters, dataobject)
-    assign("setupobject_qxd", setupobject, envir=rte)
+    setupobject <- initializesetupclassobject("setupobject", defaultParameters, dataobject)
+    assign("setupobject", setupobject, envir=rte)
     
-    controlobject <- initializecontrolclassobject(list("setupobject_qxd")) 
-    assign("controlobject_qxd", controlobject, envir=rte)
+    controlobject <- initializecontrolclassobject(list("setupobject")) 
+    assign("controlobject", controlobject, envir=rte)
     
     analysislist <- reportslist <- vector("list", 1)
     
-      parameterclassobject <- rte$setupobject_qxd@parameters
-      dataclassobject <- rte$setupobject_qxd@data 
+      parameterclassobject <- rte$setupobject@parameters
+      dataclassobject <- rte$setupobject@data 
       subclassobjects <- getinitializedsubclassobjects(dataclassobject, parameterclassobject) 
       analysisclassobject <- initializeanalysisclassobject(subclassobjects, dataclassobject)
       reportclassobject <- initializeReportClass(analysisclassobject)

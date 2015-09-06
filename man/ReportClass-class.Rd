@@ -12,8 +12,6 @@ A ReportClass is an class containing ggplot2 objects created based on an Analysi
 \describe{
 \item{\code{barplot}}{}
 
-\item{\code{smat}}{}
-
 \item{\code{heatmap}}{}
 
 \item{\code{multidimensionalscaling}}{}

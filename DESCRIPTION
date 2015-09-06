@@ -1,6 +1,6 @@
 Package: preproviz
-Title: : Tools for Visualization of Interdependent Data Quality Issues for
-    Faster and More Effective Preprocessing
+Title: Tools for Visualization of Interdependent Data Quality Issues for Faster
+    and More Effective Preprocessing
 Version: 0.7.0
 Authors@R: person("Markus", "Vattulainen", email = "markus.vattulainen@gmail.com", role = c("aut", "cre"))
 Description: Data Quality issues such as missing values and outliers are often
@@ -24,7 +24,6 @@ Imports:
     reshape2,
     ggplot2,
     ggdendro,
-    GGally,
     gridExtra,
     methods,
     utils
