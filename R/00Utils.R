@@ -1,12 +1,5 @@
 
-.onAttach <- function(libname, pkgname) {
-  packageStartupMessage("Tools for Visualization of Interdependent Data Quality Issues for Faster and More Effective Preprocessing
-Demo: a <- preproviz(iris) plotVARCLUST(a) plotCMDS(a) plotVARIMP(a) plotBAR(a)")
-}
-
-# Cyclic dependency test in Travis
-# options(repos = c(CRAN="http://cran.r-project.org"))
-
+## Misc. settings and definitions
 
 #' @import ggplot2
 NULL

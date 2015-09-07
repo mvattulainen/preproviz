@@ -1,8 +1,4 @@
 
-
-
-
-
 # BASECLASS DEFINITION AND GENERIC FUNCTION COMPUTEVALUE ======================
 
 #' @include 00Utils.R

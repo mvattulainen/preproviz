@@ -8,11 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="Markus Vvattulainen" />
+<meta name="author" content="Markus Vattulainen" />
 
-<meta name="date" content="2015-08-23" />
+<meta name="date" content="2015-09-07" />
 
-<title>preproviz package: Data quality visualization with contructed features</title>
+<title>preproviz: Tools for Visualization of Interdependent Data Quality Issues for Faster and More Effective Preprocessing</title>
 
 
 
@@ -26,16 +26,67 @@
 
 
 <div id="header">
-<h1 class="title">preproviz package: Data quality visualization with contructed features</h1>
-<h4 class="author"><em>Markus Vvattulainen</em></h4>
-<h4 class="date"><em>2015-08-23</em></h4>
+<h1 class="title">preproviz: Tools for Visualization of Interdependent Data Quality Issues for Faster and More Effective Preprocessing</h1>
+<h4 class="author"><em>Markus Vattulainen</em></h4>
+<h4 class="date"><em>2015-09-07</em></h4>
 </div>
 
 
-<p>Interdependent data quality problems are a major cause of suboptimal performance in knowledge discovery tasks. Package preproviz provides visualization of data quality interdependencies by constructing features that express data quality such as number of missing values on a row divided by the total of rows.</p>
-<div id="get-started" class="section level2">
-<h2>Get started</h2>
-<p>You can make an example run with“a &lt;- rundq_simple(iris)”. This returns a ReportClass object that can be explored by: plotDENSITY(a), plotCMDS(a) plotHEATMAP(a), plotVARCLUST(a) and plotOUTLIERS(a).</p>
+<p>Data quality issues such as missing values and outliers are often interdependent, which makes preprocessing both time-consuming and leads to suboptimal performance in knowledge discovery tasks. Package ‘preproviz’ supports preprocessing decision making by visualizing interdependent data quality issues through means of feature construction. The user can define his own application domain specific constructed features that express the quality of a data point such as number of missing values in the point or use nine default features. The outcome can be explored with plot methods and the feature constructed data acquired with get methods.</p>
+<div id="quick-start" class="section level2">
+<h2>Quick start</h2>
+<p>a &lt;- preproviz(iris)<br />plotCMDS(a)</p>
+</div>
+<div id="data-quality-issues" class="section level2">
+<h2>Data quality issues</h2>
+<p>Package ‘preproviz’ supports preprocessing decision making in the following topics:</p>
+<ol style="list-style-type: decimal">
+<li><p>What is the general data quality profile of a data set? Method: PlotBAR()</p></li>
+<li><p>What are the data point specific data quality issues? Method: plotHEATMAP()</p></li>
+<li><p>Are there data quality clusters (i.e. groups of data points whose data quality characteristics are similar to each other)? Method: PlotCMDS</p></li>
+<li><p>Do data quality issues associate (linearly) with each other? Method: plotVARCLUST</p></li>
+<li><p>Are there data quality points that have unexpected data quality characteristics?<br />Method: plotOUTLIERS? Do outlier scores in the original data match with the outlier<br />scores in the constructed data? Method: plotLOFSUM</p></li>
+<li><p>Do constructed data quality features have predictive power? plotVARIMP</p></li>
+</ol>
+</div>
+<div id="default-features" class="section level2">
+<h2>Default features</h2>
+<p>Default features use both unsupervised and supervised approaches. Default features are<br />experimental and have been developed in the analysis of business performance measurement system data.</p>
+<ol style="list-style-type: decimal">
+<li><p>Missing values<br />MissingValueShare: Number of missing values in a row divided by total number of columns<br />MissingValueToClass: Number of missing value in a row divided by average number of missing value in rows of the same class</p></li>
+<li><p>Outliers<br />LOFScore: LOF-score (LOF-algorithm by Breunig et al.) MahalanobisToClassCenter: Mahalanobis distance to class center</p></li>
+<li><p>Fitness in classification task<br />ClassificationCertainty: Random forest class propability (highest value) (RandomForest algorithm by Breiman) Scatter Counter: Scatter counter score in 1/10 neighborhood (Scatter Counter algorithm by Siermala and Juhola)</p></li>
+<li><p>Duplicates<br />DistanceToNearest: Euclidean distance to nearest data point (assumption: points too near are possible duplicates)</p></li>
+<li><p>Point neighbourhood<br />NearestPointPurity: Nearest point is of same class or not NeighborhoodDiversity: Number of most frequent class points in the neighborhood divided by number of classes in the data</p></li>
+<li><p>Flatness<br />LenghtOfIQR: Lenght of IQR per row after min-max normalization of the data</p></li>
+</ol>
+</div>
+<div id="customized-setups" class="section level2">
+<h2>Customized setups</h2>
+<ol style="list-style-type: decimal">
+<li><p>Two data frames: beforepreprocessing and afterpreprocessing<br />before &lt;- initializesetupclassobject(“before”, defaultParameters, initializedataobject(beforepreprocessing))<br />after &lt;- initializesetupclassobject(“after”, defaultParameters, initializedataobject(afterpreprocessing))<br />control &lt;- initializecontrolclassobject(list(“before”, “after))<br />a &lt;- preproviz(control)</p></li>
+<li><p>Customer parameters (note, three or more are required):<br />customParameters &lt;- initializeparameterclassobject(list(“MissingValues”, “LOFScore”, “ScatterCounter”))</p></li>
+<li><p>Feature construction: xxample: number of missing values (counted before missing value imputation) constructfeature(“MissingValues”, “apply(data, 1, function(x) sum(is.na(x)”, impute=TRUE)</p></li>
+</ol>
+</div>
+<div id="classes" class="section level2">
+<h2>Classes</h2>
+<p>RunClass, output of preproviz() function is stored to a RunClass object. RunClass objects can be plotted.</p>
+<p>ControlClass, argument for preproviz() function references by name to one or several SetUpClass objects.</p>
+<p>SetUpClass, a SetUpClass object includes a DataClass object and a ParameterClass object.</p>
+<p>ParameterClass, a ParameterClass object references to the names of constructed features (that is, to sub classes of BaseClass).</p>
+<p>DataClass, a DataClass object includes the base data given by the user and its manipulations.</p>
+<p>BaseClass, a virtual class from which sub class (i.e. constructed features) are inhereted from.</p>
+</div>
+<div id="requirements-and-remarks" class="section level2">
+<h2>Requirements and remarks</h2>
+<p>Data must be in a data frame that has one and only one factor column for class labels. Other columns must be numeric. The factor column can not contain missing values.</p>
+<p>There must be three or more constructed features in the ParameterClass object.</p>
+<p>Constructed features that have constant value are not processed (e.g. MissingValueShare<br />if there are no missing values in the data set).</p>
+</div>
+<div id="research" class="section level2">
+<h2>Research</h2>
+<p>Research article on the approach with six real cases is a work in progress.</p>
 </div>
 
 

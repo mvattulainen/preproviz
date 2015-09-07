@@ -1,21 +1,114 @@
 ---
-title: "preproviz package: Data quality visualization with contructed features"
-author: "Markus Vvattulainen"
+title: "preproviz: Tools for Visualization of Interdependent Data Quality Issues for Faster and More Effective Preprocessing"
+author: "Markus Vattulainen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{preproviz package: Data quality visualization with contructed features}
+  %\VignetteIndexEntry{preproviz package: Tools for Visualization of Interdependent Data Quality Issues for Faster
+    and More Effective Preprocessing}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Interdependent data quality problems are a major cause of suboptimal performance in knowledge discovery tasks. Package preproviz provides
-visualization of data quality interdependencies by constructing 
-features that express data quality such as number of missing values 
-on a row divided by the total of rows. 
+Data quality issues such as missing values and outliers are often interdependent, 
+which makes preprocessing both time-consuming and leads to suboptimal performance 
+in knowledge discovery tasks. Package 'preproviz' supports preprocessing decision 
+making by visualizing interdependent data quality issues through means of feature 
+construction. The user can define his own application domain specific constructed 
+features that express the quality of a data point such as number of missing values
+in the point or use nine default features. The outcome can be explored with plot 
+methods and the feature constructed data acquired with get methods.
+ 
+## Quick start
 
-## Get started
+a <- preproviz(iris)  
+plotCMDS(a)  
 
-You can make an example run with"a <- rundq_simple(iris)". This returns
-a ReportClass object that can be explored by: plotDENSITY(a), plotCMDS(a) plotHEATMAP(a), plotVARCLUST(a) and plotOUTLIERS(a).
+## Data quality issues
 
+Package 'preproviz' supports preprocessing decision making in the following topics:  
+
+1. What is the general data quality profile of a data set? Method: PlotBAR()
+
+2. What are the data point specific data quality issues? Method: plotHEATMAP()
+
+3. Are there data quality clusters (i.e. groups of data points whose data quality
+characteristics are similar to each other)? Method: PlotCMDS  
+
+4. Do data quality issues associate (linearly) with each other? Method: plotVARCLUST  
+ 
+5. Are there data quality points that have unexpected data quality characteristics?  
+Method: plotOUTLIERS? Do outlier scores in the original data match with the outlier  
+scores in the constructed data? Method: plotLOFSUM  
+
+6. Do constructed data quality features have predictive power? plotVARIMP  
+
+## Default features
+
+Default features use both unsupervised and supervised approaches. Default features are  
+experimental and have been developed in the analysis of business performance measurement 
+system data.
+
+1. Missing values  
+MissingValueShare: Number of missing values in a row divided by total number of columns  
+MissingValueToClass: Number of missing value in a row divided by average number of missing value in rows of the same class
+
+2. Outliers  
+LOFScore: LOF-score (LOF-algorithm by Breunig et al.)
+MahalanobisToClassCenter: Mahalanobis distance to class center
+
+3. Fitness in classification task  
+ClassificationCertainty: Random forest class propability (highest value) (RandomForest algorithm by Breiman)
+Scatter Counter: Scatter counter score in 1/10 neighborhood (Scatter Counter algorithm by Siermala and Juhola)
+
+4. Duplicates  
+DistanceToNearest: Euclidean distance to nearest data point (assumption: points too near are possible duplicates)
+
+5. Point neighbourhood  
+NearestPointPurity: Nearest point is of same class or not
+NeighborhoodDiversity: Number of most frequent class points in the neighborhood divided by number of classes in the data
+
+6. Flatness  
+LenghtOfIQR: Lenght of IQR per row after min-max normalization of the data
+
+## Customized setups
+
+1. Two data frames: beforepreprocessing  and afterpreprocessing  
+before <- initializesetupclassobject("before", defaultParameters, initializedataobject(beforepreprocessing))  
+after <- initializesetupclassobject("after", defaultParameters, initializedataobject(afterpreprocessing))  
+control <- initializecontrolclassobject(list("before", "after))   
+a <- preproviz(control)  
+
+2. Customer parameters (note, three or more are required):    
+customParameters <- initializeparameterclassobject(list("MissingValues", "LOFScore", "ScatterCounter"))
+
+3. Feature construction: xxample: number of missing values (counted before missing value imputation)
+constructfeature("MissingValues", "apply(data, 1, function(x) sum(is.na(x)", impute=TRUE)
+
+## Classes
+
+RunClass, output of preproviz() function is stored to a RunClass object. RunClass objects can be plotted.    
+
+ControlClass, argument for preproviz() function references by name to one or several SetUpClass objects.  
+
+SetUpClass, a SetUpClass object includes a DataClass object and a ParameterClass object.  
+
+ParameterClass, a ParameterClass object references to the names of constructed features (that is, to sub classes of BaseClass).
+
+DataClass, a DataClass object includes the base data given by the user and its manipulations.
+
+BaseClass, a virtual class from which sub class (i.e. constructed features) are inhereted from.  
+
+## Requirements and remarks
+
+Data must be in a data frame that has one and only one factor column for class labels.
+Other columns must be numeric. The factor column can not contain missing values.
+
+There must be three or more constructed features in the ParameterClass object.
+
+Constructed features that have constant value are not processed (e.g. MissingValueShare  
+if there are no missing values in the data set).  
+
+## Research
+
+Research article on the approach with six real cases is a work in progress. 

@@ -29,7 +29,7 @@ name <- object@objectname
 genv$name <- name
 genv$object <- object
 
-## Density plots
+## Bar plots
 g_bar <- ggplot2::ggplot(getlongformatconstructeddata(object), aes (value), environment=genv) 
 g_bar <- g_bar + geom_bar() + facet_wrap(~Var2, scales="free") + theme_bw() + ggtitle(name)
 
