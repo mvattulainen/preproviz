@@ -38,8 +38,7 @@ characteristics are similar to each other)? Method: PlotCMDS
 4. Do data quality issues associate (linearly) with each other? Method: plotVARCLUST  
  
 5. Are there data quality points that have unexpected data quality characteristics?  
-Method: plotOUTLIERS? Do outlier scores in the original data match with the outlier  
-scores in the constructed data? Method: plotLOFSUM  
+Method: plotOUTLIERS. Do outliers in the original data also have unexpected data quality characteristics? Method: plotLOFSUM  
 
 6. Do constructed data quality features have predictive power? plotVARIMP  
 
@@ -74,15 +73,18 @@ LenghtOfIQR: Lenght of IQR per row after min-max normalization of the data
 ## Customized setups
 
 1. Two data frames: beforepreprocessing  and afterpreprocessing  
+
 before <- initializesetupclassobject("before", defaultParameters, initializedataobject(beforepreprocessing))  
 after <- initializesetupclassobject("after", defaultParameters, initializedataobject(afterpreprocessing))  
 control <- initializecontrolclassobject(list("before", "after))   
 a <- preproviz(control)  
 
 2. Customer parameters (note, three or more are required):    
+
 customParameters <- initializeparameterclassobject(list("MissingValues", "LOFScore", "ScatterCounter"))
 
-3. Feature construction: xxample: number of missing values (counted before missing value imputation)
+3. Feature construction: example: number of missing values (counted before missing value imputation)
+
 constructfeature("MissingValues", "apply(data, 1, function(x) sum(is.na(x)", impute=TRUE)
 
 ## Classes
