@@ -10,7 +10,7 @@
 
 <meta name="author" content="Markus Vattulainen" />
 
-<meta name="date" content="2015-09-07" />
+<meta name="date" content="2015-09-08" />
 
 <title>preproviz: Tools for Visualization of Interdependent Data Quality Issues for Faster and More Effective Preprocessing</title>
 
@@ -28,7 +28,7 @@
 <div id="header">
 <h1 class="title">preproviz: Tools for Visualization of Interdependent Data Quality Issues for Faster and More Effective Preprocessing</h1>
 <h4 class="author"><em>Markus Vattulainen</em></h4>
-<h4 class="date"><em>2015-09-07</em></h4>
+<h4 class="date"><em>2015-09-08</em></h4>
 </div>
 
 
@@ -45,7 +45,7 @@
 <li><p>What are the data point specific data quality issues? Method: plotHEATMAP()</p></li>
 <li><p>Are there data quality clusters (i.e. groups of data points whose data quality characteristics are similar to each other)? Method: PlotCMDS</p></li>
 <li><p>Do data quality issues associate (linearly) with each other? Method: plotVARCLUST</p></li>
-<li><p>Are there data quality points that have unexpected data quality characteristics?<br />Method: plotOUTLIERS? Do outlier scores in the original data match with the outlier<br />scores in the constructed data? Method: plotLOFSUM</p></li>
+<li><p>Are there data quality points that have unexpected data quality characteristics?<br />Method: plotOUTLIERS. Do outliers in the original data also have unexpected data quality characteristics? Method: plotLOFSUM</p></li>
 <li><p>Do constructed data quality features have predictive power? plotVARIMP</p></li>
 </ol>
 </div>
@@ -64,10 +64,17 @@
 <div id="customized-setups" class="section level2">
 <h2>Customized setups</h2>
 <ol style="list-style-type: decimal">
-<li><p>Two data frames: beforepreprocessing and afterpreprocessing<br />before &lt;- initializesetupclassobject(“before”, defaultParameters, initializedataobject(beforepreprocessing))<br />after &lt;- initializesetupclassobject(“after”, defaultParameters, initializedataobject(afterpreprocessing))<br />control &lt;- initializecontrolclassobject(list(“before”, “after))<br />a &lt;- preproviz(control)</p></li>
-<li><p>Customer parameters (note, three or more are required):<br />customParameters &lt;- initializeparameterclassobject(list(“MissingValues”, “LOFScore”, “ScatterCounter”))</p></li>
-<li><p>Feature construction: xxample: number of missing values (counted before missing value imputation) constructfeature(“MissingValues”, “apply(data, 1, function(x) sum(is.na(x)”, impute=TRUE)</p></li>
+<li>Two data frames: beforepreprocessing and afterpreprocessing</li>
 </ol>
+<p>before &lt;- initializesetupclassobject(“before”, defaultParameters, initializedataobject(beforepreprocessing))<br />after &lt;- initializesetupclassobject(“after”, defaultParameters, initializedataobject(afterpreprocessing))<br />control &lt;- initializecontrolclassobject(list(“before”, “after))<br />a &lt;- preproviz(control)</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Customer parameters (note, three or more are required):</li>
+</ol>
+<p>customParameters &lt;- initializeparameterclassobject(list(“MissingValues”, “LOFScore”, “ScatterCounter”))</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Feature construction: example: number of missing values (counted before missing value imputation)</li>
+</ol>
+<p>constructfeature(“MissingValues”, “apply(data, 1, function(x) sum(is.na(x)”, impute=TRUE)</p>
 </div>
 <div id="classes" class="section level2">
 <h2>Classes</h2>
@@ -80,7 +87,7 @@
 </div>
 <div id="requirements-and-remarks" class="section level2">
 <h2>Requirements and remarks</h2>
-<p>Data must be in a data frame that has one and only one factor column for class labels. Other columns must be numeric. The factor column can not contain missing values.</p>
+<p>Data must be in a data frame that has one and only one factor column for class labels. The factor column can not contain missing values. Other columns must be numeric.</p>
 <p>There must be three or more constructed features in the ParameterClass object.</p>
 <p>Constructed features that have constant value are not processed (e.g. MissingValueShare<br />if there are no missing values in the data set).</p>
 </div>
