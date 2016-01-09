@@ -6,7 +6,7 @@ NULL
 
 #' @importFrom stats cmdscale dist na.omit predict
 
-#' @importFrom methods setClass setGeneric setMethod extends new prototype signature
+#' @importFrom methods setClass setGeneric setMethod extends new prototype signature slot
 NULL
 
 #' @importFrom utils globalVariables

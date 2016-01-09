@@ -21,9 +21,27 @@ demoiris <- iris
 demoiris[10:20,1] <- NA
 a <- preproviz(demoiris)
 plotBAR(a)
+```
+
+In the barplot above, 11/150 rows have missing values and one data point has
+LOF score that is clearly different from the rest. 
+
+```{r,fig.width=10, fig.height=8, message = FALSE, warnings = FALSE}
 plotHEATMAP(a)
 plotVARCLUST(a)
+```
+
+We can see that Scattercounter and ClassificationCertainty are relatively
+close to each other as are DistanceToNearest and LOF score.
+
+```{r,fig.width=10, fig.height=8, message = FALSE, warnings = FALSE}
 plotCMDS(a)
+```
+
+There is a cluster of points in the bottom of the graph that are similar
+to each other as far as data quality scores are concerned. 
+
+```{r,fig.width=10, fig.height=8, message = FALSE, warnings = FALSE}
 plotVARIMP(a)
 ```
 
