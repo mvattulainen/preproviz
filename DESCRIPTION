@@ -1,17 +1,16 @@
 Package: preproviz
-Title: Tools for Visualization of Interdependent Data Quality Issues for Faster
-    and More Effective Preprocessing
+Title: Tools for Visualization of Interdependent Data Quality Issues
 Version: 0.7.0
 Authors@R: person("Markus", "Vattulainen", email = "markus.vattulainen@gmail.com", role = c("aut", "cre"))
-Description: Data quality issues such as missing values and outliers are
-    often interdependent, which makes preprocessing both time-consuming and leads
-    to suboptimal performance in knowledge discovery tasks. Package 'preproviz'
-    supports preprocessing decision making by visualizing interdependent data
-    quality issues through means of feature construction. The user can define his
-    own application domain specific constructed features that express the quality
-    of a data point such as number of missing values in the point or use nine
-    default features. The outcome can be explored with plot methods and the feature
-    constructed data acquired with get methods.
+Description: Data quality issues such as missing values and outliers are often
+    interdependent, which makes preprocessing both time-consuming and leads to
+    suboptimal performance in knowledge discovery tasks. This package supports
+    preprocessing decision making by visualizing interdependent data quality issues
+    through means of feature construction. The user can define his own application
+    domain specific constructed features that express the quality of a data point
+    such as number of missing values in the point or use nine default features.
+    The outcome can be explored with plot methods and the feature constructed data
+    acquired with get methods.
 Depends:
     R (>= 3.2.2)
 License: GPL-2
@@ -26,9 +25,12 @@ Imports:
     ggdendro,
     gridExtra,
     methods,
-    utils
+    utils,
+    stats
 Suggests:
     testthat,
+    knitr,
+    preprocomb
 Collate:
     '00Utils.R'
     '01BaseClass.R'
@@ -40,3 +42,4 @@ Collate:
     'DefaultControl.R'
 URL: https://github.com/mvattulainen/preproviz
 BugReports: https://github.com/mvattulainen/preproviz/issues
+VignetteBuilder: knitr

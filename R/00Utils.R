@@ -4,7 +4,9 @@
 #' @import ggplot2
 NULL
 
-#' @importFrom methods setClass setGeneric setMethod
+#' @importFrom stats cmdscale dist na.omit predict
+
+#' @importFrom methods setClass setGeneric setMethod extends new prototype signature
 NULL
 
 #' @importFrom utils globalVariables

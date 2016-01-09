@@ -1,0 +1,79 @@
+---
+title: preproviz quick start
+author: Markus Vattulainen
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Package preproviz takes the data and constructs features of it that express the quality of a data point. Constructed features are visualized to help the analyst understand how data quality issues
+can be interdependent.
+
+
+## Quick start
+
+```{r,fig.width=10, fig.height=8, message = FALSE, warnings = FALSE}
+library(preproviz)
+demoiris <- iris
+demoiris[10:20,1] <- NA
+a <- preproviz(demoiris)
+plotBAR(a)
+plotHEATMAP(a)
+plotVARCLUST(a)
+plotCMDS(a)
+plotVARIMP(a)
+```
+
+## Advanced use
+
+The package supports comparison of multiple data sets or different versions of a same data set.
+
+User-defined constructed features can be added.
+
+## Contructed features
+
+MissingValueShare, count the number of missing values on a row and divide it by the total number of features
+
+LenghtOfIQR, min-max normalize the data and compute the length of IQR for each row
+
+DistanceToNearest, min-max normalize the data and compute the Euclidean distance to the nearest data point
+
+ClassificationCentainty, compute the random forest  class propability that has the highest value
+
+ClassificationScatter. compute the scatter in 1/10 point neighbourhood
+
+NearestPointPurity,Neareast point is of same class or not
+
+NeighborhoodDiversity, count the number of dominant class points in 1/10 data set size neighborhood and divide 
+it with the total number of classes in the data set.
+
+LOFScore, compute LOF scores
+
+MahalanobisDistance, compute Mahalanobis distance to class center
+
+ClusteringTendency, Count the Hopkins statistic without a row and divide it with Hopkings statistic for all rows
+
+## References
+
+Constructed features build on the work of:
+
+Breunig, M. M., Kriegel, H-P.,  Ng, R. T., and Sander, J., (2000). LOF: Identifying Density-Based Local Outliers, Proc. ACM SIGMOD 2000 Int. Conf. On Management of Data, pp. 93-104
+
+Breiman, L. (2001). Random Forests, Machine Learning, Vol. 45, pp. 5–32
+
+Juhola, M., Siermala, M. (2012). A scatter method for data and variable importance evaluation,  Integrated Computer-Aided Engineering, vol. 19, no. 2, pp. 137-149, 2012
+
+Lawson, R.G. and Jurs, P.C.(1990). New index for clustering tendency and its application to chemical problems. Journal of Chemical Information and Computer Sciences. (Journal of Chemical Information and Computer Sciences, 1990, 30(1):36-41)
+
+## Work in progress
+
+An article with 6 cases from the business performance measurement system domain is a work in progress.
+
+## Related package
+
+Package 'preprocomb' provides tools for automation of preproccessing with preprocessing combinations.
+
+
