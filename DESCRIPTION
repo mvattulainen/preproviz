@@ -29,8 +29,6 @@ Imports:
     utils
 Suggests:
     testthat,
-    knitr
-VignetteBuilder: knitr
 Collate:
     '00Utils.R'
     '01BaseClass.R'
