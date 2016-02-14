@@ -23,6 +23,7 @@ setClass("BaseClass", representation(objectname="character", valuevector="numeri
 #' @param object A sub class object inheriting BaseClass 
 #' @param dataobject A DataClass object
 #' @return (numeric) feature vector
+#' @export
 
 setGeneric("computeValue", function(object, dataobject) {
   standardGeneric("computeValue")
@@ -43,14 +44,14 @@ setGeneric("computeValue", function(object, dataobject) {
 
 constructfeature <- function(classname, operation, mode="all", impute=FALSE){
 
-  setClass(classname, contains="BaseClass", prototype=prototype(preimpute=impute))
+  setClass(classname, contains="BaseClass", where=topenv(parent.frame()), prototype=prototype(preimpute=impute))
 
   if (mode=="all" & impute=="TRUE") {functionexpression <- gsub("data", "dataobject@basedata", operation)}
   if (mode=="numeric" & impute=="TRUE") {functionexpression <- gsub("data", "dataobject@numericdata", operation)}
   if (mode=="all" & impute=="FALSE") {functionexpression <- gsub("data", "dataobject@imputedbase", operation)}
   if (mode=="numeric" & impute=="FALSE") {functionexpression <- gsub("data", "dataobject@imputednumeric", operation)}
 
-  setMethod("computeValue", signature(object = classname), function(object, dataobject) {
+  setMethod("computeValue", where=topenv(parent.frame()), signature(object = classname), function(object, dataobject) {
     #print(paste("Computing feature vector:", object@objectname, " from data: ", dataobject@name, sep=""))
     temp <- object ## BUG: This is completely redundant
     eval(parse(text=functionexpression))

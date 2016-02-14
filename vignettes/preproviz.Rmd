@@ -4,13 +4,13 @@ author: Markus Vattulainen
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{preproviz quick start}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Package preproviz takes the data and constructs features of it that express the quality of a data point. Constructed features are visualized to help the analyst understand how data quality issues
-can be interdependent.
+Package preproviz takes the data and constructs features of it that express the quality of a data point such as number
+of missing values in the point. Constructed features are visualized to help the analyst understand how data quality issues can be interdependent.
 
 
 ## Quick start
@@ -49,7 +49,7 @@ plotVARIMP(a)
 
 The package supports comparison of multiple data sets or different versions of a same data set.
 
-User-defined constructed features can be added.
+User-defined constructed features can be added with constructfeature function.
 
 ## Contructed features
 
