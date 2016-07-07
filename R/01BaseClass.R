@@ -4,24 +4,20 @@
 #' @include 00Utils.R
 NULL
 
-#' BaseClass
-#' 
-#' A BaseClass is an abstract class. Sub classes are inherited from BaseClass. 
+#' An abstract S4 class representing contructed features.  
 #'
 #' @slot objectname (character) name of the object
 #' @slot valuevector (numeric) constructed feature vector
-#' @slot isvalid (logical) result of object validation: checksubclassobjectvalidity
-#' @slot preimpute (logical) whether valuevector should be compute before missing value imputation
+#' @slot isvalid (logical) result of object validation
+#' @slot preimpute (logical) whether valuevector iss computed before missing value imputation
 #' @export
 
 setClass("BaseClass", representation(objectname="character", valuevector="numeric", isvalid="logical", preimpute="logical"),
          prototype(isvalid=FALSE))
 
-#' computeValue
-#' 
-#' computevalue is a BaseClass generic function for computing constructed feature vectors.
-#' @param object A sub class object inheriting BaseClass 
-#' @param dataobject A DataClass object
+#' generic function for computing constructed feature vectors.
+#' @param object (sub class object inherited from BaseClass) 
+#' @param dataobject (DataClass)
 #' @return (numeric) feature vector
 #' @export
 
@@ -31,15 +27,12 @@ setGeneric("computeValue", function(object, dataobject) {
 
 # SUB CLASS DEFINITION AND METHOD DEFINITION ====================
 
-#' constructfeature
-#'
-#' constructfeature is a convenience function for inheriting a user-defined sub class from BaseClass and defining computevalue methods for them.
-#' @param classname (character) Name of the inherited class 
-#' @param operation (expression) Feature construction operation . The expression is evaluated by computevalue method. 
+#' constructor function for adding constructed features to the system
+#' @param classname (character) name of the inherited class 
+#' @param operation (expression) feature construction operation.The expression is evaluated by computevalue method. 
 #' @param mode (character) Mode of data to be used in construction . Defaults to "all", option "numeric" for numeric data without class labels. 
 #' @param impute (logical) Impute whether construction is done before missing value imputation . Defaults to "FALSE"
-#' @return (BaseClass) A sub class inhereted from BaseClass
-#' @return A computevalue method for the sub class
+#' @return (BaseClass) A sub class inhereted from BaseClass and computevalue method for the class
 #' @export
 
 constructfeature <- function(classname, operation, mode="all", impute=FALSE){
@@ -52,24 +45,12 @@ constructfeature <- function(classname, operation, mode="all", impute=FALSE){
   if (mode=="numeric" & impute=="FALSE") {functionexpression <- gsub("data", "dataobject@imputednumeric", operation)}
 
   setMethod("computeValue", where=topenv(parent.frame()), signature(object = classname), function(object, dataobject) {
-    #print(paste("Computing feature vector:", object@objectname, " from data: ", dataobject@name, sep=""))
-    temp <- object ## BUG: This is completely redundant
     eval(parse(text=functionexpression))
   })
 
 }
 
 # VALIDITY ===============================
-
-#' checksubclassobjectvalidity
-#' 
-#' checksubclassobjectvalidity is a validation method for BaseClass objects.
-#' Valid constructed feature vectors must be finite, have variance and be of same length as rows in data.
-#' 
-#' @param object A user-defined or default sub class object inhereted from BaseClass
-#' @param dataobject An object of DataClass 
-#' @return (numeric) 1 for valid objects
-#' @return (numeric) 0 for not valid object
 
 checksubclassobjectvalidity <- function(object, dataobject) {
   
@@ -103,13 +84,6 @@ checksubclassobjectvalidity <- function(object, dataobject) {
 
 # SUB CLASS OBJECT INITIALIZATION ============================
 
-#' initializesubclassobject
-#' 
-#' initializesubclassobject is a constructor function for constructing objects for classes inhereted from BaseClass
-#' @param classname (character) A name of class of an object is initialized from (e.g. "MissingValueShare").
-#' @param dataobject A DataClass object that is used by computeValue method for the sub class object.
-#' @export
-
 initializesubclassobject <- function(classname, dataobject){
   y <- new(classname)
   y@objectname <- gsub("[[:punct:]]", "", as.character(deparse(classname)))
@@ -117,12 +91,6 @@ initializesubclassobject <- function(classname, dataobject){
   if (checksubclassobjectvalidity(y, dataobject)==1) {y@isvalid <- TRUE}
   return(y)
 }
-
-#' getinitializedsubclassobjects
-#' 
-#' getinitializedsubclassobjects is a constructor function for constructing sub class objects
-#' @param dataobject A DataClass object that is used by computeValue method for the sub class object.
-#' @param parameterobject A ParameterClass object that is composed of sub class names
 
 getinitializedsubclassobjects <- function(dataobject, parameterobject)
 {

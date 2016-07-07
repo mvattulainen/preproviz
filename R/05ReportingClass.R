@@ -1,24 +1,20 @@
 
 ## USES: Analysis
 
-#' A ReportClass is an class containing ggplot2 objects created based on an AnalysisClass object.  
+#' An S4 class representing visualizations
 #'
-#' @slot barplot
-#' @slot heatmap
-#' @slot multidimensionalscaling
-#' @slot variableclusters
-#' @slot outliers
-#' @slot varimp
-#' @slot lofsum
+#' @slot density density plot of all constructed features
+#' @slot heatmap heatmap
+#' @slot cmds classical multidimensional scaling
+#' @slot variableclusters hiearchical variable clustering
+#' @slot outliers LOF outlier scores
+#' @slot varimp variable importance
+#' @slot lofsum sum of LOF scores
 #' @export 
 
-setClass("ReportClass", representation(barplot="list", heatmap="list", multidimensionalscaling="list",  variableclusters="list", outliers="list", varimp="list", lofsum="list"))
+setClass("ReportClass", representation(density="list", heatmap="list", cmds="list",  variableclusters="list", outliers="list", varimp="list", lofsum="list"))
 
 ### CHARACTERIZATION PLOTS
-
-#' initializeReportClass is a constructor function for initializing a ReportClass object. 
-#' @param object (AnaysisClass)
-#' @export
 
 initializeReportClass <- function(object){
 
@@ -30,11 +26,8 @@ genv$name <- name
 genv$object <- object
 
 ## Bar plots
-g_bar <- ggplot2::ggplot(getlongformatconstructeddata(object), aes (value), environment=genv) 
-g_bar <- g_bar + geom_bar() + facet_wrap(~Var2, scales="free") + theme_bw() + ggtitle(name)
-
-# TEST THIS: theme_set(theme_bw())
-# g_scattermatrix <- GGally::ggpairs(getminmaxconstructeddata(object), diag = list(continuous = "density"), lower=list(continuous = "smooth"), upper="blank")
+g_density <- ggplot2::ggplot(getlongformatconstructeddata(object), aes(value), environment=genv) 
+g_density <- g_density + geom_density() + facet_wrap(~Var2, scales="free") + theme_bw() + ggtitle(name)
 
 ## Heat map
 g_heatmap <- ggplot2::ggplot(getlongformatminmaxconstructeddata(object), aes(y=Var1,x=Var2), environment=genv) 
@@ -55,7 +48,7 @@ g_dendro <- g_dendro + coord_flip()
 ## LOF Scores
 
 g_outlier <- ggplot2::ggplot(getlofscores(object), aes(x=object.lofscores), environment=genv) 
-g_outlier <- g_outlier + geom_density()+ theme_bw() + ggtitle(name)
+g_outlier <- g_outlier + geom_density()+ theme_bw() + ggtitle(name) + xlab("LOF score")
 
 ## Variable importance
 
@@ -69,15 +62,13 @@ g_varimp <- g_varimp + geom_bar(stat="identity") + coord_flip() + theme_bw() + g
 g_lofsum <- ggplot2::ggplot(getlofsumdata(object), aes(x=seq, y=variable), environment=genv) + geom_tile(aes(fill=value)) 
 g_lofsum <- g_lofsum + scale_fill_gradient(low="white", high="black") + theme_bw() + ggtitle(name) + ylab("") + theme(axis.title.y = element_blank())
 
-ReportClass <- new("ReportClass", barplot=list(g_bar), heatmap=list(g_heatmap), multidimensionalscaling=list(g_scatter), variableclusters=list(g_dendro), outliers=list(g_outlier), varimp=list(g_varimp), lofsum=list(g_lofsum))
+ReportClass <- new("ReportClass", density=list(g_density), heatmap=list(g_heatmap), cmds=list(g_scatter), variableclusters=list(g_dendro), outliers=list(g_outlier), varimp=list(g_varimp), lofsum=list(g_lofsum))
 return(ReportClass)
 }
 
 ## METHODS
 
-#' plotCMDS  
-#'
-#' plotCMDS is a generic function for plotting classical multidimensional scaling of constructed features
+#' generic function for plotting classical multidimensional scaling
 #' @param object (ReportClass or RunClass)
 #' @rdname plotCMDS
 #' @export
@@ -86,18 +77,15 @@ setGeneric("plotCMDS", function(object) {
   standardGeneric("plotCMDS")
 })
 
-#' plotCMDS ReportClass 
-#' @describeIn plotCMDS
-
+ 
+#' @rdname plotCMDS
 setMethod("plotCMDS", signature(object = "ReportClass"), function(object) {
-  object@multidimensionalscaling}
+  object@cdms}
 )
 
-#' plotCMDS RunClass 
-#' @describeIn plotCMDS
-
+#' @rdname plotCMDS
 setMethod("plotCMDS", signature(object = "RunClass"), function(object) {
-  listcmds <- lapply(object@reports, function(x) slot(x, "multidimensionalscaling"))
+  listcmds <- lapply(object@reports, function(x) slot(x, "cmds"))
   listcmds <- lapply(listcmds, `[[`, 1)
   do.call(gridExtra::grid.arrange,  listcmds)
   }
@@ -105,29 +93,24 @@ setMethod("plotCMDS", signature(object = "RunClass"), function(object) {
 
 ###
 
-#' plotBAR  
-#'
-#' plotBAR is a generic function for for plotting barplots of constructed features
+#' generic function for  plotting density estimates of constructed features
 #' @param object (ReportClass or RunClass)
-#' @rdname plotBAR
+#' @rdname plotDENSITY
 #' @export
 
-setGeneric("plotBAR", function(object) {
-  standardGeneric("plotBAR")
+setGeneric("plotDENSITY", function(object) {
+  standardGeneric("plotDENSITY")
 })
 
-#' plotBAR ReportClass 
-#' @describeIn plotCMDS
 
-setMethod("plotBAR", signature(object = "ReportClass"), function(object) {
-  object@barplot}
+#' @rdname plotDENSITY
+setMethod("plotDENSITY", signature(object = "ReportClass"), function(object) {
+  object@density}
 )
 
-#' plotBAR RunClass 
-#' @describeIn plotCMDS
-
-setMethod("plotBAR", signature(object = "RunClass"), function(object) {
-  listcmds <- lapply(object@reports, function(x) slot(x, "barplot"))
+#' @rdname plotDENSITY
+setMethod("plotDENSITY", signature(object = "RunClass"), function(object) {
+  listcmds <- lapply(object@reports, function(x) slot(x, "density"))
   listcmds <- lapply(listcmds, `[[`, 1)
   do.call(gridExtra::grid.arrange,  listcmds)
 }
@@ -135,9 +118,7 @@ setMethod("plotBAR", signature(object = "RunClass"), function(object) {
 
 ## OUTLIERS
 
-#' plotOUTLIERS 
-#'
-#' plotOUTLIERS is a generic function for plotting density of LOF scores of constructed features
+#' generic function for plotting density of LOF scores
 #' @param object (ReportClass or RunClass)
 #' @rdname plotOUTLIERS
 #' @export
@@ -146,16 +127,12 @@ setGeneric("plotOUTLIERS", function(object) {
   standardGeneric("plotOUTLIERS")
 })
 
-#' plotOUTLIERS ReportClass 
-#' @describeIn plotOUTLIERS
-
+#' @rdname plotOUTLIERS
 setMethod("plotOUTLIERS", signature(object = "ReportClass"), function(object) {
   object@outliers}
 )
 
-#' plotOUTLIERS RunClass 
-#' @describeIn plotOUTLIERS
-
+#' @rdname plotOUTLIERS
 setMethod("plotOUTLIERS", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@reports, function(x) slot(x, "outliers"))
   listcmds <- lapply(listcmds, `[[`, 1)
@@ -165,11 +142,7 @@ setMethod("plotOUTLIERS", signature(object = "RunClass"), function(object) {
 
 ##
 
-
-
-#' plotVARCLUST 
-#'
-#' plotVARCLUST is a generic function for plotting variable clusters of constructed features
+#' generic function for plotting variable clusters
 #' @param object (ReportClass or RunClass)
 #' @rdname plotVARCLUST
 #' @export
@@ -178,16 +151,12 @@ setGeneric("plotVARCLUST", function(object) {
   standardGeneric("plotVARCLUST")
 })
 
-#' plotVARCLUST ReportClass 
-#' @describeIn plotVARCLUST
-
+#' @rdname plotVARCLUST
 setMethod("plotVARCLUST", signature(object = "ReportClass"), function(object) {
   object@variableclusters}
 )
 
-#' plotVARCLUST RunClass 
-#' @describeIn plotVARCLUST
-
+#' @rdname plotVARCLUST
 setMethod("plotVARCLUST", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@reports, function(x) slot(x, "variableclusters"))
   listcmds <- lapply(listcmds, `[[`, 1)
@@ -197,9 +166,7 @@ setMethod("plotVARCLUST", signature(object = "RunClass"), function(object) {
 
 ### HEATMAP
 
-#' plotHEATMAP 
-#'
-#' plotHEATMAP is a generic function for plotting heatmap of constructed features
+#' generic function for plotting heatmap
 #' @param object (ReportClass or RunClass)
 #' @rdname plotHEATMAP
 #' @export
@@ -208,16 +175,12 @@ setGeneric("plotHEATMAP", function(object) {
   standardGeneric("plotHEATMAP")
 })
 
-#' plotHEATMAP ReportClass 
-#' @describeIn plotHEATMAP
-
+#' @rdname plotHEATMAP
 setMethod("plotHEATMAP", signature(object = "ReportClass"), function(object) {
   object@heatmap}
 )
 
-#' plotHEATMAP RunClass 
-#' @describeIn plotHEATMAP
-
+#' @rdname plotHEATMAP
 setMethod("plotHEATMAP", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@reports, function(x) slot(x, "heatmap"))
   listcmds <- lapply(listcmds, `[[`, 1)
@@ -227,9 +190,7 @@ setMethod("plotHEATMAP", signature(object = "RunClass"), function(object) {
 
 ## VARIMP
 
-#' plotVARIMP 
-#'
-#' plotHEATMAP is a generic function for variable importance (predicting the class labels in original data) of constructed features
+#' generic function for plotting variable importance 
 #' @param object (ReportClass or RunClass)
 #' @rdname plotVARIMP
 #' @export
@@ -238,16 +199,12 @@ setGeneric("plotVARIMP", function(object) {
   standardGeneric("plotVARIMP")
 })
 
-#' plotVARIMP ReportClass 
-#' @describeIn plotVARIMP
-
+#' @rdname plotVARIMP
 setMethod("plotVARIMP", signature(object = "ReportClass"), function(object) {
   object@varimp}
 )
 
-#' plotVARIMP RunClass 
-#' @describeIn plotVARIMP
-
+#' @rdname plotVARIMP
 setMethod("plotVARIMP", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@reports, function(x) slot(x, "varimp"))
   listcmds <- lapply(listcmds, `[[`, 1)
@@ -257,9 +214,7 @@ setMethod("plotVARIMP", signature(object = "RunClass"), function(object) {
 
 ## LOFSUM
 
-#' plotLOFSUM 
-#'
-#' plotLOFSUM is a generic function for lof sum of constructed features
+#' generic function for plotting lof sum of constructed features
 #' @param object (ReportClass or RunClass)
 #' @rdname plotLOFSUM
 #' @export
@@ -268,16 +223,12 @@ setGeneric("plotLOFSUM", function(object) {
   standardGeneric("plotLOFSUM")
 })
 
-#' plotLOFSUM ReportClass 
-#' @describeIn plotLOFSUM
-
+#' @rdname plotLOFSUM
 setMethod("plotLOFSUM", signature(object = "ReportClass"), function(object) {
   object@lofsum}
 )
 
-#' plotLOFSUM RunClass 
-#' @describeIn plotLOFSUM
-
+#' @rdname plotLOFSUM
 setMethod("plotLOFSUM", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@reports, function(x) slot(x, "lofsum"))
   listcmds <- lapply(listcmds, `[[`, 1)

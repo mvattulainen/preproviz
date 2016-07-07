@@ -1,9 +1,7 @@
 
 # ANALYSIS CLASS DEFINITION AND INITIALIZATION ====================================
 
-#' AnalysisClass
-#' 
-#' An AnalysisClass is a class containing analysis done on collected constructed features. 
+#' An S4 class representing analysis results  
 #'
 #' @slot objectname (character) Name of the object 
 #' @slot basedata (data frame) A data frame containing the original data
@@ -29,14 +27,6 @@ setClass("AnalysisClass", representation(objectname="character", basedata="data.
 
 
 # ANALYSIS CLASS INITIALIZATION ====================================
-
-#' initializeanalysisclassobject
-#' 
-#' initializeanalysisclassobject is a constructor function for constructing AnalysisClass objects
-#' @param object A name of an object that contains the constructed feature vectors (i.e. initilized sub class objects)
-#' @param dataobject A DataClass object that is used to computeValue in AnalysisClass computations
-#' @return An analysis class object
-#' @export
 
 initializeanalysisclassobject <- function(object, dataobject){
 
@@ -110,28 +100,24 @@ return(AnalysisObject)
 
 # GETTER METHODS FOR ANALYSISCLASS =========================
 
-#' getname
-#' 
 #' get name of an object
+#' 
 #' @param object (AnalysisClass or BaseClass)
 #' @return (character) name of the object
-#' @rdname getname
 #' @export
 
 setGeneric("getname", function(object) {
   standardGeneric("getname")
 })
 
-#' getname AnalysisClass 
-#' @describeIn getname
-
+#' @rdname getname
+#' @keywords internal
 setMethod("getname", signature(object = "AnalysisClass"), function(object) {
   return(object@objectname)}
 )
 
-#' getname BaseClass
-#' @describeIn getname
-
+#' @rdname getname
+#' @keywords internal
 setMethod("getname", signature(object = "BaseClass"), function(object) {
   return(object@objectname)}
 )
@@ -143,16 +129,15 @@ setMethod("getname", signature(object = "BaseClass"), function(object) {
 #' get basedata, that is the original data frame to be visualized
 #' @param object (AnalysisClass)
 #' @return (data frame) basedata
-#' @rdname getbasedata
 #' @export
 
 setGeneric("getbasedata", function(object) {
   standardGeneric("getbasedata")
 })
 
-#' getbasedata AnalysisClass
-#' @describeIn getbasedata
 
+#' @rdname getbasedata
+#' @keywords internal
 setMethod("getbasedata", signature(object = "AnalysisClass"), function(object) {
   return(object@basedata)}
 )
@@ -171,9 +156,8 @@ setGeneric("getnumericbasedata", function(object) {
   standardGeneric("getnumericbasedata")
 })
 
-#' getbasedata AnalysisClass
-#' @describeIn getnumericbasedata
-
+#' @rdname getnumericbasedata
+#' @keywords internal
 setMethod("getnumericbasedata", signature(object = "AnalysisClass"), function(object) {
   return(object@numericbasedata)}
 )
@@ -185,98 +169,81 @@ setMethod("getnumericbasedata", signature(object = "AnalysisClass"), function(ob
 #' get constructeddata, that is features constructed combined
 #' @param object (AnalysisClass or RunClass)
 #' @return (data frame) constructed data
-#' @rdname getconstructeddata
 #' @export
 
 setGeneric("getconstructeddata", function(object) {
   standardGeneric("getconstructeddata")
 })
 
-#' getconstructeddata AnalysisClass
-#' @describeIn getconstructeddata
 
+#' @rdname getconstructeddata
+#' @keywords internal
 setMethod("getconstructeddata", signature(object = "AnalysisClass"), function(object) {
   return(object@constructeddata)}
 )
 
 ##
 
-#' getlongformatconstructeddata
-#' 
 #' get constructed data in long format
 #' @param object (AnalysisClass or RunClass)
 #' @return (data frame) long format constructed data
-#' @rdname getlongformatconstructeddata
 #' @export
 
 setGeneric("getlongformatconstructeddata", function(object) {
   standardGeneric("getlongformatconstructeddata")
 })
 
-#' getlongformatconstructeddata AnalysisClass
-#' @describeIn getlongformatconstructeddata
-
+#' @rdname getlongformatconstructeddata
+#' @keywords internal
 setMethod("getlongformatconstructeddata", signature(object = "AnalysisClass"), function(object) {
   return(object@longformatconstructeddata)}
 )
 
-#' getminmaxconstructeddata
-#' 
-#' get contructed data that have been min-max normalized to [0,1]
+#' get contructed data that have been min-max normalized
 #' @param object (AnalysisClass or RunClass)
 #' @return (data frame) min-max normalized data
-#' @rdname getminmaxconstructeddata
 #' @export
 
 setGeneric("getminmaxconstructeddata", function(object) {
   standardGeneric("getminmaxconstructeddata")
 })
 
-#' getminmaxconstructeddata AnalysisClass
-#' @describeIn getminmaxconstructeddata
-
+#' @rdname getminmaxconstructeddata
+#' @keywords internal
 setMethod("getminmaxconstructeddata", signature(object = "AnalysisClass"), function(object) {
   return(object@minmaxconstructeddata)}
 )
 
 ##
 
-#' getcombineddata
-#' 
 #' get basedata and constructed data combined
 #' @param object (AnalysisClass or RunClass)
 #' @return (data frame) combined data
-#' @rdname getcombineddata
 #' @export
 
 setGeneric("getcombineddata", function(object) {
   standardGeneric("getcombineddata")
 })
 
-#' getcombineddata AnalysisClass
-#' @describeIn getcombineddata
-
+#' @rdname getcombineddata
+#' @keywords internal
 setMethod("getcombineddata", signature(object = "AnalysisClass"), function(object) {
   return(object@combineddata)}
 )
 
 ##
 
-#' getnumericombineddata
-#' 
 #' get numeric columns of combined data 
 #' @param object (AnalysisClass or RunClass)
 #' @return (data frame) numeric columns combined data
-#' @rdname getnumericombineddata
 #' @export
 
 setGeneric("getnumericombineddata", function(object) {
   standardGeneric("getnumericombineddata")
 })
 
-#' getnumericombineddata AnalysisClass
-#' @describeIn getnumericombineddata
-
+#' @rdname getnumericombineddata
+#' @keywords internal
 setMethod("getnumericombineddata", signature(object = "AnalysisClass"), function(object) {
   return(object@numericcombineddata)}
 )
@@ -288,37 +255,31 @@ setMethod("getnumericombineddata", signature(object = "AnalysisClass"), function
 #' get class labels of basedata 
 #' @param object (AnalysisClass or RunClass)
 #' @return (factor) vector of class labels
-#' @rdname getclasslabels
 #' @export
 
 setGeneric("getclasslabels", function(object) {
   standardGeneric("getclasslabels")
 })
 
-#' getclasslabels AnalysisClass
-#' @describeIn getclasslabels
-
+#' @rdname getclasslabels
+#' @keywords internal
 setMethod("getclasslabels", signature(object = "AnalysisClass"), function(object) {
   return(object@classlabel)}
 )
 
 ##
 
-#' getcmdsdata
-#' 
-#' get classical multidimensional scaling two-dimensional data points from minmaxconstructed data 
+#' get classical multidimensional scaling from minmaxconstructed data 
 #' @param object (AnalysisClass or RunClass)
 #' @return (data frame) cmds points
-#' @rdname getcmdsdata
 #' @export
 
 setGeneric("getcmdsdata", function(object) {
   standardGeneric("getcmdsdata")
 })
 
-#' getcmdsdata AnalysisClass
-#' @describeIn getcmdsdata
-
+#' @rdname getcmdsdata
+#' @keywords internal
 setMethod("getcmdsdata", signature(object = "AnalysisClass"), function(object) {
   return(object@cmds)}
 )
@@ -330,39 +291,16 @@ setMethod("getcmdsdata", signature(object = "AnalysisClass"), function(object) {
 #' get long format of minmax normalized constructed data
 #' @param object (AnalysisClass or RunClass)
 #' @return (data frame) long format data
-#' @rdname getlongformatminmaxconstructeddata
 #' @export
 
 setGeneric("getlongformatminmaxconstructeddata", function(object) {
   standardGeneric("getlongformatminmaxconstructeddata")
 })
 
-#' getlongformatminmaxconstructeddata AnalysisClass
-#' @describeIn getlongformatminmaxconstructeddata
-
+#' @rdname getlongformatminmaxconstructeddata
+#' @keywords internal
 setMethod("getlongformatminmaxconstructeddata", signature(object = "AnalysisClass"), function(object) {
   return(object@longformatminmaxconstructeddata)}
-)
-
-##
-
-#' getdendrodata (NOT IN USE)
-#' 
-#' get dendrogram data of minmax normalized constructed data
-#' @param object (AnalysisClass or RunClass)
-#' @return (data frame) dendro data
-#' @rdname getdendrodata
-#' @export
-
-setGeneric("getdendrodata", function(object) {
-  standardGeneric("getdendrodata")
-})
-
-#' getdendrodata AnalysisClass
-#' @describeIn getdendrodata
-
-setMethod("getdendrodata", signature(object = "AnalysisClass"), function(object) {
-  return(object@dendrogram)}
 )
 
 ##
@@ -372,37 +310,31 @@ setMethod("getdendrodata", signature(object = "AnalysisClass"), function(object)
 #' get LOF scores minmax normalized constructed data
 #' @param object (AnalysisClass or RunClass)
 #' @return (numeric) vector of LOF scores
-#' @rdname getlofscores
 #' @export
 
 setGeneric("getlofscores", function(object) {
   standardGeneric("getlofscores")
 })
 
-#' getlofscores AnalysisClass
-#' @describeIn getlofscores
-
+#' @rdname getlofscores
+#' @keywords internal
 setMethod("getlofscores", signature(object = "AnalysisClass"), function(object) {
   return(data.frame(object@lofscores))}
 )
 
 ##
 
-#' getvariableimportancedata
-#' 
-#' get random forest variable importance computed from minmax normalized constructed data and class labels
+#' get random forest variable importance data
 #' @param object (AnalysisClass or RunClass)
 #' @return (data frame) variable importance scores and feature names 
-#' @rdname getvariableimportancedata
 #' @export
 
 setGeneric("getvariableimportancedata", function(object) {
   standardGeneric("getvariableimportancedata")
 })
 
-#' getvariableimportancedata AnalysisClass
-#' @describeIn getvariableimportancedata
-
+#' @rdname getvariableimportancedata
+#' @keywords internal
 setMethod("getvariableimportancedata", signature(object = "AnalysisClass"), function(object) {
   return(data.frame(object@variableimportancedata))}
 )
@@ -414,16 +346,14 @@ setMethod("getvariableimportancedata", signature(object = "AnalysisClass"), func
 #' get LOF scores of min-max normalized constructed data plus numerical imputed base data 
 #' @param object (AnalysisClass or RunClass)
 #' @return (data frame) variable importance scores and feature names 
-#' @rdname getlofsumdata
 #' @export
 
 setGeneric("getlofsumdata", function(object) {
   standardGeneric("getlofsumdata")
 })
 
-#' getlofsumdata AnalysisClass
-#' @describeIn getlofsumdata
-
+#' @rdname getlofsumdata
+#' @keywords internal
 setMethod("getlofsumdata", signature(object = "AnalysisClass"), function(object) {
   return(data.frame(object@lofsumdata))}
 )

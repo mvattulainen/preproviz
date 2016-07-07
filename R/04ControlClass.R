@@ -4,12 +4,11 @@
 
 # RUNCLASS =====================
 
-#' RunClass 
+#' An S4 class representing preproviz output 
 #' 
 #' RunClass is an class contain ReportClass and AnalysisClass objects as separate lists.
 #' A RunClass object is the output of running the main function preproviz() and can be
-#' studied with either get methods (AnalysisClass objects) or plot methods (ReportClass
-#' objects).
+#' studied with either get or plot methods. 
 #'  
 #' @slot reports A list of ReportClass objects
 #' @slot analysis A list of AnalysisClass object
@@ -18,49 +17,47 @@
 
 setClass("RunClass", representation(reports="list", analysis="list")) #
 
-#' getconstructeddata RunClass
-#' @describeIn getconstructeddata
-
+#' @rdname getconstructeddata
+#' @keywords internal
 setMethod("getconstructeddata", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@analysis, function(x) slot(x, "constructeddata"))
 }
 )
 
-#' getbasedata RunClass
-#' @describeIn getbasedata
 
+#' @rdname getbasedata
+#' @keywords internal
 setMethod("getbasedata", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@analysis, function(x) slot(x, "basedata"))
 }
 )
 
-#' getminmaxconstructeddata RunClass
-#' @describeIn getminmaxconstructeddata
 
+#' @rdname getminmaxconstructeddata
+#' @keywords internal
 setMethod("getminmaxconstructeddata", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@analysis, function(x) slot(x, "minmaxconstructeddata"))
 }
 )
 
-#' getcombineddata RunClass
-#' @describeIn getcombineddata
 
+#' @rdname getcombineddata
+#' @keywords internal
 setMethod("getcombineddata", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@analysis, function(x) slot(x, "combineddata"))
 }
 )
 
-#' getnumericombineddata RunClass
-#' @describeIn getnumericombineddata
 
+#' @rdname getnumericombineddata
+#' @keywords internal
 setMethod("getnumericombineddata", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@analysis, function(x) slot(x, "numericombineddata"))
 }
 )
 
-#' getclasslabels RunClass
-#' @describeIn getclasslabels
-
+#' @rdname getclasslabels
+#' @keywords internal
 setMethod("getclasslabels", signature(object = "RunClass"), function(object) {
   listcmds <- lapply(object@analysis, function(x) slot(x, "classlabel"))
 }
@@ -68,15 +65,13 @@ setMethod("getclasslabels", signature(object = "RunClass"), function(object) {
 
 # CONTROLCLASS =====================
 
-#' A ControlClass is an class containing SetUpClass objects.  
+#' An S4 class representing SetUpClass objects.  
 #'
 #' @slot setups A list of SetUpClass objects 
 
 setClass("ControlClass", representation(setups="list"))
 
-#' initializecontrolclassobject
-#'
-#' initializecontrolclassobject is a constructor function for intializing ControlClass objects. 
+#' constructor function for intializing ControlClass objects. 
 #' @param setups (list) Name of SetUpClass objects 
 #' @return (ControlClass) object 
 #' @export
@@ -93,7 +88,7 @@ initializecontrolclassobject <- function(setups){
 
 # PARAMETERCLASS =====================
 
-#' ParameterClass 
+#' An S4 class representing selected constructed features
 #' 
 #' ParameterClass is a class containing a list of sub class objects (i.e. constructed features, inhereted
 #' from BaseClass). A ParameterClass object in a SetUpClass object defines which constructed features are computed 
@@ -104,9 +99,8 @@ initializecontrolclassobject <- function(setups){
 
 setClass("ParameterClass", representation(parameters="list"))
 
-#' initializeparameterclassobject
-#'
-#' initializeparameterclassobject is a constructor function for intializing ParameterClass objects. 
+#' constructor function for intializing a ParameterClass objects
+#'   
 #' @param parameters (list) Name of sub classes 
 #' @return (ParameterClass) object 
 #' @export
@@ -131,18 +125,16 @@ initializeparameterclassobject <- function(parameters){
 
 setGeneric("getparameters",function(object){standardGeneric("getparameters")}) ## VALUE
 
-#' getparameters ParameterClass
-#' @describeIn getparameters
-
+#' @rdname getparameters
+#' @keywords internal
 setMethod("getparameters", signature(object = "ParameterClass"), function(object) {
   return(object@parameters)}
 )
 
 # DATACLASS =====================
 
-#' DataClass 
+#' An S4 class representing data objects. 
 #' 
-#' DataClass is a class containing data.  
 #' DataClass object can be initialized only for a data frame that has a) one class label columns of class 'factor' and
 #' b) other columns are of type 'numeric'
 #'
@@ -155,9 +147,8 @@ setMethod("getparameters", signature(object = "ParameterClass"), function(object
 
 setClass("DataClass", representation(name="character", basedata="data.frame", imputedbase="data.frame", numericdata="data.frame", imputednumeric="data.frame"))
 
-#' initializedataObject 
-#' 
-#' initializedataobject is a constructor function for initializing aDataClass object from original data frame
+#' constructor function for initializing a DataClass object
+#'
 #' @param data (data frame)
 #' @return (DataClass)
 #' @export
@@ -183,7 +174,7 @@ initializedataobject <- function(data){
 
 # SETUPCLASS =====================
 
-#' SetUpClass 
+#' An S4 class representing setups.  
 #' 
 #' SetUpClass is an class containing a DataClass object, a ParameterClass object and the name of the SetUpClass object  
 #'
@@ -194,9 +185,8 @@ initializedataobject <- function(data){
 
 setClass("SetUpClass", representation(objectname="character", data="DataClass", parameters="ParameterClass"))
 
-#' initializesetupclassobject 
-#' 
-#' initializesetupclassobject is a constructor function for initializing a SetUpClass object
+#' constructor function for initializing a SetUpClass object
+
 #' @param objectname (character) Name of the setup
 #' @param parameterobject (ParameterClass)
 #' @param dataobject (DataClass)
@@ -215,9 +205,9 @@ initializesetupclassobject <- function(objectname, parameterobject, dataobject){
 }
 
 
-#' getparameters SetUpClass
-#' @describeIn getparameters
 
+#' @rdname getparameters
+#' @keywords internal
 setMethod("getparameters", signature(object = "SetUpClass"), function(object) {
   return(object@parameters)}
 )

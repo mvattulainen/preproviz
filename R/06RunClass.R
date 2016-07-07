@@ -3,10 +3,10 @@
 #' @include 05ReportingClass.R
 NULL
 
-#' preproviz
-#'  
-#' preproviz is an execution function to run either a ControlClass object (complex setup)
-#' or data frame (simple setup). Output can be plotted with plot-methods, e.g. plotVARCLUST(x)
+#' the MAIN execution function
+#' 
+#' preproviz() can run either a ControlClass object (complex setup) or data frame (simple setup). 
+#' Output can be plotted with plot-methods, e.g. plotVARCLUST(x)
 #' 
 #' @param controlobject (data frame or ControlClass) 
 #' @return (RunClass) object
@@ -35,12 +35,42 @@ preproviz <- function(controlobject){
       dataclassobject <- rte$setupobject@data 
       subclassobjects <- getinitializedsubclassobjects(dataclassobject, parameterclassobject) 
       analysisclassobject <- initializeanalysisclassobject(subclassobjects, dataclassobject)
+      
       reportclassobject <- initializeReportClass(analysisclassobject)
       analysislist[[1]] <- analysisclassobject
       reportslist[[1]] <- reportclassobject
       runclassobject <- new("RunClass", reports=reportslist, analysis=analysislist)    
       return(runclassobject)
       } # closes data frame
+  
+    if(class(controlobject)=="list"){
+      
+      A <- controlobject[[1]]
+      B <- controlobject[[2]]
+      
+      setup1 <- initializesetupclassobject("setup1", defaultParameters, initializedataobject(A))
+      setup2 <- initializesetupclassobject("setup2", defaultParameters, initializedataobject(B)) 
+      controlcompare <- initializecontrolclassobject(list("setup1", "setup2"))
+      
+      setupslist <- controlcompare@setups
+      analysislist <- reportslist <- vector("list", length(setupslist))
+  
+      # for each setup
+      
+      for (i in 1:length(setupslist)){
+        parameterclassobject <- getparameters(eval(as.name(setupslist[[i]]))) 
+        dataclassobject <- eval(as.name(setupslist[[i]]))@data 
+        subclassobjects <- getinitializedsubclassobjects(dataclassobject, parameterclassobject) 
+        analysisclassobject <- initializeanalysisclassobject(subclassobjects, dataclassobject)
+        reportclassobject <- initializeReportClass(analysisclassobject)
+        analysislist[[i]] <- analysisclassobject
+        reportslist[[i]] <- reportclassobject
+        
+      }  
+      
+      runclassobject <- new("RunClass", reports=reportslist, analysis=analysislist)
+      
+    } # end list
 
     if(class(controlobject)=="ControlClass"){
     
@@ -64,8 +94,6 @@ preproviz <- function(controlobject){
     runclassobject <- new("RunClass", reports=reportslist, analysis=analysislist)
     
     } # closes ControlClass
-    
-    else {stop("Argument 'controlobject' must be either a ControlClass object or data frame.")}
   
   return(runclassobject)
 }

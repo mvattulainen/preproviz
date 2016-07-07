@@ -1,6 +1,7 @@
 Package: preproviz
 Title: Tools for Visualization of Interdependent Data Quality Issues
-Version: 0.1.1
+Version: 0.2.0
+Date: 2016-7-7
 Authors@R: person("Markus", "Vattulainen", email = "markus.vattulainen@gmail.com", role = c("aut", "cre"))
 Description: Data quality issues such as missing values and outliers are often
     interdependent, which makes preprocessing both time-consuming and leads to
@@ -43,3 +44,4 @@ Collate:
 URL: https://github.com/mvattulainen/preproviz
 BugReports: https://github.com/mvattulainen/preproviz/issues
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1

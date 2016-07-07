@@ -1,17 +1,15 @@
-## ----fig.width=10, fig.height=8, message = FALSE, warnings = FALSE-------
+## ----fig.width=8, fig.height=8, message = FALSE, warnings = FALSE--------
 library(preproviz)
-demoiris <- iris
-demoiris[10:20,1] <- NA
-a <- preproviz(demoiris)
-plotBAR(a)
+result <- preproviz(iris)
+plotDENSITY(result)
 
-## ----fig.width=10, fig.height=8, message = FALSE, warnings = FALSE-------
-plotHEATMAP(a)
-plotVARCLUST(a)
+## ---- message = FALSE, warnings = FALSE----------------------------------
+iris2 <- iris
+iris2[sample(1:150,30), 1] <- NA # adding missing values
+iris2[sample(1:150,30), 5] <- levels(iris2$Species)[2] # adding inconsistency 
 
-## ----fig.width=10, fig.height=8, message = FALSE, warnings = FALSE-------
-plotCMDS(a)
+## ----fig.width=8, fig.height=8, message = FALSE, warnings = FALSE--------
 
-## ----fig.width=10, fig.height=8, message = FALSE, warnings = FALSE-------
-plotVARIMP(a)
+result <- preproviz(list(iris, iris2))
+plotVARCLUST(result)
 
