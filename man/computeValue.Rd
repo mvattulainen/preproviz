@@ -2,7 +2,7 @@
 % Please edit documentation in R/01BaseClass.R
 \name{computeValue}
 \alias{computeValue}
-\title{generic function for computing constructed feature vectors.}
+\title{generic function for computing constructed feature vectors}
 \usage{
 computeValue(object, dataobject)
 }
@@ -15,6 +15,6 @@ computeValue(object, dataobject)
 (numeric) feature vector
 }
 \description{
-generic function for computing constructed feature vectors.
+generic function for computing constructed feature vectors
 }
 

@@ -3,9 +3,9 @@
 \docType{class}
 \name{ControlClass-class}
 \alias{ControlClass-class}
-\title{An S4 class representing SetUpClass objects.}
+\title{An S4 class representing setups to be executed}
 \description{
-An S4 class representing SetUpClass objects.
+An S4 class representing setups to be executed
 }
 \section{Slots}{
 

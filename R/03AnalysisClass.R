@@ -1,7 +1,7 @@
 
 # ANALYSIS CLASS DEFINITION AND INITIALIZATION ====================================
 
-#' An S4 class representing analysis results  
+#' An S4 class representing analysis data  
 #'
 #' @slot objectname (character) Name of the object 
 #' @slot basedata (data frame) A data frame containing the original data

@@ -3,7 +3,7 @@
 \docType{class}
 \name{RunClass-class}
 \alias{RunClass-class}
-\title{An S4 class representing preproviz output}
+\title{An S4 class representing preproviz output (data and visualizations)}
 \value{
 A RunClass object
 }

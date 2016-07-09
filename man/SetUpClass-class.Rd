@@ -3,7 +3,7 @@
 \docType{class}
 \name{SetUpClass-class}
 \alias{SetUpClass-class}
-\title{An S4 class representing setups.}
+\title{An S4 class representing setups}
 \description{
 SetUpClass is an class containing a DataClass object, a ParameterClass object and the name of the SetUpClass object
 }

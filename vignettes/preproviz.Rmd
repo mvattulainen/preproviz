@@ -21,10 +21,19 @@ acquired with get methods.
 
 ## Quick start
 
-```{r,fig.width=8, fig.height=8, message = FALSE, warnings = FALSE}
+Simple exploration can be done by passing a data frame as an argument.
+The data frame must have one factor variable and other variables numeric.
+
+```{r, message = FALSE, warnings = FALSE}
 library(preproviz)
 result <- preproviz(iris)
+```
+
+The resulting object can be plotted with various plot functions.
+
+```{r,fig.width=8, fig.height=8, message = FALSE, warnings = FALSE}
 plotDENSITY(result)
+plotHEATMAP(result)
 ```
 
 ## Comparisons
@@ -45,7 +54,7 @@ and then setup comparison between iris  and iris2.
 result <- preproviz(list(iris, iris2))
 ```
 
-The results can be plotted with several plot methods. First, plotting how the constructed features cluster (that is, which features are
+Plotting how the constructed features cluster (that is, which features are
 linearly dependent on each other). 
 
 ```{r,fig.width=8, fig.height=8, message = FALSE, warnings = FALSE}
@@ -61,7 +70,7 @@ plotCMDS(result)
 
 ## Customization
 
-The setups can be customized:
+Finally, the setups can be customized in detail:
 
 ```{r, message = FALSE, warnings = FALSE, eval=FALSE}
 customparameters <- initializeparameterclassobject(list("LOFScore", "ScatterCounter"))

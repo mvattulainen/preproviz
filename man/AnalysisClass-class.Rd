@@ -3,9 +3,9 @@
 \docType{class}
 \name{AnalysisClass-class}
 \alias{AnalysisClass-class}
-\title{An S4 class representing analysis results}
+\title{An S4 class representing analysis data}
 \description{
-An S4 class representing analysis results
+An S4 class representing analysis data
 }
 \section{Slots}{
 

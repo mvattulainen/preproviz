@@ -7,13 +7,24 @@
 preproviz(controlobject)
 }
 \arguments{
-\item{controlobject}{(data frame or ControlClass)}
+\item{controlobject}{(data frame/list/ControlClass object)}
 }
 \value{
 (RunClass) object
 }
 \description{
-preproviz() can run either a ControlClass object (complex setup) or data frame (simple setup). 
-Output can be plotted with plot-methods, e.g. plotVARCLUST(x)
+for simple exploration preproviz() takes data frame (one factor variable, other variables numeric)
+as an argument. Two data sets can be compared by providing them as a list. For complex setups a
+ControlClass object can be passed as an argument. See Vignette for examples. The output can be
+visualized with PLOT functions.
+}
+\examples{
+## result1 <- preproviz(iris)
+## plotDENSITY(result1)
+##
+## iris2 <- iris
+## iris2[sample(1:150,30),1] <- NA
+## result2 <- preproviz(list(iris, iris2))
+## plotVARCLUST(result2)
 }
 

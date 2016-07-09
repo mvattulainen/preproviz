@@ -3,7 +3,7 @@
 \docType{class}
 \name{DataClass-class}
 \alias{DataClass-class}
-\title{An S4 class representing data objects.}
+\title{An S4 class representing data objects}
 \description{
 DataClass object can be initialized only for a data frame that has a) one class label columns of class 'factor' and
 b) other columns are of type 'numeric'

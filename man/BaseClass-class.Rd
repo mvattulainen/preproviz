@@ -3,9 +3,9 @@
 \docType{class}
 \name{BaseClass-class}
 \alias{BaseClass-class}
-\title{An abstract S4 class representing contructed features.}
+\title{An abstract S4 class representing contructed features}
 \description{
-An abstract S4 class representing contructed features.
+An abstract S4 class representing contructed features
 }
 \section{Slots}{
 

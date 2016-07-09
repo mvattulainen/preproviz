@@ -4,7 +4,7 @@
 #' @include 00Utils.R
 NULL
 
-#' An abstract S4 class representing contructed features.  
+#' An abstract S4 class representing contructed features  
 #'
 #' @slot objectname (character) name of the object
 #' @slot valuevector (numeric) constructed feature vector
@@ -15,7 +15,7 @@ NULL
 setClass("BaseClass", representation(objectname="character", valuevector="numeric", isvalid="logical", preimpute="logical"),
          prototype(isvalid=FALSE))
 
-#' generic function for computing constructed feature vectors.
+#' generic function for computing constructed feature vectors
 #' @param object (sub class object inherited from BaseClass) 
 #' @param dataobject (DataClass)
 #' @return (numeric) feature vector

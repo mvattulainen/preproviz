@@ -2,7 +2,7 @@
 % Please edit documentation in R/04ControlClass.R
 \name{initializecontrolclassobject}
 \alias{initializecontrolclassobject}
-\title{constructor function for intializing ControlClass objects.}
+\title{constructor function for intializing a ControlClass object}
 \usage{
 initializecontrolclassobject(setups)
 }
@@ -13,6 +13,6 @@ initializecontrolclassobject(setups)
 (ControlClass) object
 }
 \description{
-constructor function for intializing ControlClass objects.
+constructor function for intializing a ControlClass object
 }
 

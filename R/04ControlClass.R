@@ -4,7 +4,7 @@
 
 # RUNCLASS =====================
 
-#' An S4 class representing preproviz output 
+#' An S4 class representing preproviz output (data and visualizations)
 #' 
 #' RunClass is an class contain ReportClass and AnalysisClass objects as separate lists.
 #' A RunClass object is the output of running the main function preproviz() and can be
@@ -65,13 +65,13 @@ setMethod("getclasslabels", signature(object = "RunClass"), function(object) {
 
 # CONTROLCLASS =====================
 
-#' An S4 class representing SetUpClass objects.  
+#' An S4 class representing setups to be executed  
 #'
 #' @slot setups A list of SetUpClass objects 
 
 setClass("ControlClass", representation(setups="list"))
 
-#' constructor function for intializing ControlClass objects. 
+#' constructor function for intializing a ControlClass object 
 #' @param setups (list) Name of SetUpClass objects 
 #' @return (ControlClass) object 
 #' @export
@@ -133,7 +133,7 @@ setMethod("getparameters", signature(object = "ParameterClass"), function(object
 
 # DATACLASS =====================
 
-#' An S4 class representing data objects. 
+#' An S4 class representing data objects 
 #' 
 #' DataClass object can be initialized only for a data frame that has a) one class label columns of class 'factor' and
 #' b) other columns are of type 'numeric'
@@ -174,7 +174,7 @@ initializedataobject <- function(data){
 
 # SETUPCLASS =====================
 
-#' An S4 class representing setups.  
+#' An S4 class representing setups  
 #' 
 #' SetUpClass is an class containing a DataClass object, a ParameterClass object and the name of the SetUpClass object  
 #'
